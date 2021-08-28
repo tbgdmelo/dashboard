@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from functions import *
 
 import requests
 import json
@@ -38,27 +39,30 @@ while(1>0):
     trends = json.loads(json.dumps(brazil_trends, indent=1))
 
 
-    #dados={"tweets":[]}
     for trend in trends[0]["trends"]:
         
+        #vai armezar todos os tweets
         tts_tema={"tema":(trend["name"]),
         "tweet":[]
         }
         
+        #50 tweets sobre um tema
         resultados = api.search(q=trend["name"],count=50,lang='pt',tweet_mode='extended')
         
         for tweet in resultados:
-            tt={"texto":tweet.full_text.encode("utf-8"), "id_tweet":tweet.id}
-            tts_tema['tweet'].append(tt)
-        
-        tweets.insert_one(tts_tema).inserted_id 
-        #dados['tweets'].append(tts_tema)
-        
-    #dados_id = tweets.insert_one(dados).inserted_id
+            tt={"texto":tweet.full_text, "id_tweet":tweet.id}
 
-    #print(dados_id)
+            #nome de todas as collections do bd
+            all_NamesCollections = banco.list_collection_names()
+
+            #verificar se ID já existe no BD para poder fazer o append
+            if(exist_tweet(all_NamesCollections, banco, trend["name"], tt['id_tweet'])):
+                print('Tweet Repetido')
+            else:
+                tts_tema['tweet'].append(tt)
+
+        tweets.insert_one(tts_tema).inserted_id 
 
     print('Coleta realizada em: ')
     print(data)
     time.sleep(3600)
-
