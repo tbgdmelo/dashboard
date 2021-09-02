@@ -65,4 +65,4 @@ while(1>0):
 
     print('Coleta realizada em: ')
     print(data)
-    time.sleep(3600)
+    time.sleep(300)
