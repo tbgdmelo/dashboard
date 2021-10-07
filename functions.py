@@ -62,3 +62,26 @@ def exist_tweet(all_NamesCollections, mydb, theme, id_tt):
          return False
     else:
         return True
+
+#retorna uma lista de dicionarios
+#cada dicionario tem a forma {'tema':'nome_tema', 'tweets': []}
+#em tweets sera uma lista de tweets sobre cada tema presente na collection
+
+#recebe como parametro uma collection
+def get_all_tweets(collection):
+    l_tweets=[]
+    for doc in collection.find():    
+        j=0 #controla cada tema da collection
+
+        i=0 #controla cada tweet sobre o tema
+
+        #criar o dicionario para o tema
+        dic={'tema':doc['tema'],'tweets':[]}
+        while(i<len(doc['tweet'])):
+            dic['tweets'].append(doc['tweet'][i]['texto'])
+            i=i+1
+
+        l_tweets.append(dic)
+        j=j+1
+    
+    return l_tweets
