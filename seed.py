@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from functions import *
-
+ 
 import requests
 import json
 import time

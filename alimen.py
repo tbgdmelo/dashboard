@@ -2,7 +2,7 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 banco = client.testdatabase_dash
 tweets = client.testdatabase_dash_collection
-
+ 
 import requests
 import json
 import time

@@ -1,5 +1,5 @@
 import pymongo
-
+ 
 #conexão com o mongo
 #[retorno é uma referencia para o BD]
 def connection(name_bd):

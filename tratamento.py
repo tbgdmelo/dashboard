@@ -1,10 +1,7 @@
-import requests
-import json
-import time
 import re
-
+ 
 #t é uma string contendo o tweet completo
-def tratamento(t):
+def tratamentoTweet(t):
         #remover os @ marcados no tweet
         t=re.sub(r'@[aA-zZ]* ', '', t, flags=re.MULTILINE)
 
@@ -25,3 +22,36 @@ def tratamento(t):
 
 
         return t
+
+def RemoveStopWords(instancia):
+    stopwords = set(nltk.corpus.stopwords.words('portuguese'))
+    palavras = [i for i in instancia.split() if not i in stopwords]
+    return (" ".join(palavras))
+
+# Aplicando o stemming em nossa base:
+def Stemming(instancia):
+    stemmer = nltk.stem.RSLPStemmer()
+    palavras = []
+    for w in instancia.split():
+        palavras.append(stemmer.stem(w))
+    return (" ".join(palavras))
+
+def Limpeza_dados(instancia):
+    # remove links, pontos, virgulas,ponto e virgulas dos tweets
+    instancia = re.sub(r"http\S+", "", instancia).lower().replace('.','').replace(';','').replace('-','').replace(':','').replace(')','')
+    return (instancia)
+
+from nltk.stem import WordNetLemmatizer
+wordnet_lemmatizer = WordNetLemmatizer()
+
+def Lemmatization(instancia):
+  palavras = []
+  for w in instancia.split():
+    palavras.append(wordnet_lemmatizer.lemmatize(w))
+  return (" ".join(palavras))
+
+def Preprocessing(instancia):
+    instancia = re.sub(r"http\S+", "", instancia).lower().replace('.','').replace(';','').replace('-','').replace(':','').replace(')','').replace('"','')
+    stopwords = set(nltk.corpus.stopwords.words('portuguese'))
+    palavras = [i for i in instancia.split() if not i in stopwords]
+    return (" ".join(palavras))
