@@ -39,3 +39,29 @@ def createModel():
 
     return modelo
 
+#recebe o df de um tema, o modelo e o vetorizador
+#retorna 1 se for negativo e 0 positivo
+def defineSentimento(df_tema, modelo, vectorizer):
+    #verifica se o sentimento daquele tema é negativo ou positivo
+
+    #processa os dados para passar pro modelo
+    tweets = df_tema['texto']
+    tweets = [Preprocessing(i) for i in tweets]
+    tweets_testes = vectorizer.transform(tweets)
+
+    # 1= negativo
+    # 0= positivo
+    positivo=0
+    negativo=0
+
+    #conta qual sentimento mais aparece
+    for t, c in zip (tweets,modelo.predict(tweets_testes)):
+        if(c==1):
+            negativo+=1
+        else:
+            positivo+=1
+            
+    if(negativo>positivo):
+        return 1
+    else:
+        return 0
